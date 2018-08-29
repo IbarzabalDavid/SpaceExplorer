@@ -3,7 +3,6 @@ package objet;
 public abstract class Objet {
     private int pv;
     private int gaz;
-    private int nbPirate;
     private String nom;
 
     public String getNom() {
@@ -22,9 +21,7 @@ public abstract class Objet {
         return gaz;
     }
 
-    public int getNbPirate() {
-        return nbPirate;
-    }
+
 
     public void setPv(int pv) {
         this.pv = pv;
@@ -34,7 +31,5 @@ public abstract class Objet {
         this.gaz = gaz;
     }
 
-    public void setNbPirate(int nbPirate) {
-        this.nbPirate = nbPirate;
-    }
+
 }

@@ -3,8 +3,7 @@ package objet;
 public class CapeInvisible extends Objet {
     public CapeInvisible() {
         setGaz(0);
-        setNbPirate(1);
-        setPv(0);
+        setPv(30);
         setNom("Cape d'invisibilité");
     }
 }

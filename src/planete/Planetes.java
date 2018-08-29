@@ -1,9 +1,19 @@
 package planete;
+import objet.Objet;
 import vaisseau.Vaisseau;
 
 public class Planetes {
     private String nom;
     private int gaz;
+    private Objet obj;
+
+    public Objet getObj() {
+        return obj;
+    }
+
+    public void setObj(Objet obj) {
+        this.obj = obj;
+    }
 
     public String getNom() {
         return nom;
