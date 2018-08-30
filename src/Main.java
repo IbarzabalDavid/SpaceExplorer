@@ -12,9 +12,9 @@ public class Main {
     public static void main(String[] args) {
         Vaisseau vaisseau=new Vaisseau();
         Objet[] tabO= {new Bidon(),new CapeInvisible(),new MartinLeMecano(),new Nitro(), new Plaster()};
-        ArrayList<Objet> inventaire=new ArrayList<>();
         boolean end=false;
         Stack<Planetes> undo=new Stack<>();
+
 
         System.out.println("-------------------------------");
         System.out.println("-------------------------------");
@@ -30,23 +30,27 @@ public class Main {
                     System.out.println("Quantité de carburant : "+vaisseau.getFuel()+" Litres");
                     System.out.println("Points de vie : "+vaisseau.getPv());
                     System.out.println("Inventaire : ");
-                    for (int i=0; i<inventaire.size();i++ ){
-                        System.out.println("            -"+inventaire.get(i).getNom());
+                    for (int i=0; i<vaisseau.getInventaire().size();i++ ){
+                        System.out.println("            -"+vaisseau.getInventaire().get(i).getNom());
                     }
 
                     break;
                 case 2:
+                    if ((int)(Math.random()*3)==0){
+                        int lost=(int)(Math.random()*21+10);
+                        System.out.println("Les Pirates de l'espace vous attaquent!!!");
+                        System.out.println("Vous perdez "+lost+" PV");
+                        vaisseau.setPv(vaisseau.getPv()-lost);
+                    }
                     Planetes plan=getplanet();
-                    System.out.println("Vous visité la planète : "+plan.getNom());
-                    System.out.println("Vous dépensez "+plan.getGaz()+" litres de gaz");
-                    System.out.println("Vous découvrez : "+ plan.getObj().getNom());
-                    inventaire.add(plan.getObj());
-                    vaisseau.setFuel(vaisseau.getFuel()-plan.getGaz());
+                    undo.add(plan);
+                    plan.explorer(vaisseau);
+
                     break;
                 case 3:
                     System.out.println("Inventaire:");
-                    for (int i=0; i<inventaire.size();i++ ){
-                        System.out.println((i+1)+"-"+inventaire.get(i).getNom());
+                    for (int i=0; i<vaisseau.getInventaire().size();i++ ){
+                        System.out.println((i+1)+"-"+vaisseau.getInventaire().get(i).getNom());
                     }
                     System.out.println("");
                     System.out.println("Que voulez-vous utilié? (écrivez 0 si vous voulez rien faire)");
@@ -54,27 +58,32 @@ public class Main {
                     int choix=0;
                     while (!reset){
                         choix=number();
-                        if (choix<=inventaire.size()){
+                        if (choix<=vaisseau.getInventaire().size()){
                             reset=true;
                         }
                     }
                     if (choix!=0){
-                        System.out.println("Vous utilisez le "+inventaire.get(choix-1).getNom());
-                        vaisseau.setPv(vaisseau.getPv()+inventaire.get(choix-1).getPv());
-                        if (vaisseau.getPv()>100)
-                            vaisseau.setPv(100);
-                        vaisseau.setFuel(vaisseau.getFuel()+inventaire.get(choix-1).getGaz());
-                        if (vaisseau.getFuel()>1500)
-                            vaisseau.setFuel(1500);
-                        inventaire.remove(choix-1);
+                        vaisseau.getInventaire().get(choix-1).utiliser(vaisseau);
+                        vaisseau.getInventaire().remove(choix-1);
                     }
                     else
                         System.out.println("Vous n'utilisez rien.");
 
                     break;
                 case 4:
+                    if (undo.size()==0){
+                        System.out.println("Vous êtes a la premiere planete, vous ne pouvez plus reculez.");
+                    }
+                    else
+                    {
+                        System.out.println("Vous êtes revenu à la planete avant!!!");
+                        vaisseau.setFuel(vaisseau.getFuel()+undo.pop().getGaz());
+                        vaisseau.getInventaire().remove(vaisseau.getInventaire().size()-1);
+
+                    }
                     break;
             }
+
             if(vaisseau.getFuel()<=0){
                 vaisseau.setFuel(0);
                 System.out.println("Vous n'avez plus de gaz");
@@ -85,6 +94,15 @@ public class Main {
                 System.out.println("Vous n'avez plus de PV");
                 end=true;
             }
+        }
+        Stack<Planetes> trajet= new Stack<>();
+        int times=undo.size();
+        for (int i=0; i<times;i++){
+            trajet.add(undo.pop());
+        }
+        System.out.print("Trajet :  Terre");
+        for (int i=0; i<times;i++){
+            System.out.print("  -->  "+trajet.pop().getNom());
         }
 
 
@@ -130,6 +148,7 @@ public class Main {
                 choix=sc.nextInt();
             }catch (Exception ex){
                 sc.nextLine();
+                System.out.println("Rentre un chiffre dumbass");
                 ok=false;
             }
             if (choix<0)

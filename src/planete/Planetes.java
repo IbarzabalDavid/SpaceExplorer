@@ -30,7 +30,13 @@ public class Planetes {
     public void setGaz(int gaz) {
         this.gaz = gaz;
     }
+
     public void explorer(Vaisseau vaisseau){
-        vaisseau.setFuel(vaisseau.getFuel()-this.gaz);
+
+        System.out.println("Vous visité la planète : "+this.getNom());
+        System.out.println("Vous dépensez "+this.getGaz()+" litres de gaz");
+        System.out.println("Vous découvrez : "+ this.getObj().getNom());
+        vaisseau.getInventaire().add(this.getObj());
+        vaisseau.setFuel(vaisseau.getFuel()-this.getGaz());
     }
 }

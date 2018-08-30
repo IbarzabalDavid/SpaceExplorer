@@ -5,7 +5,7 @@ import objet.Plaster;
 public class Epilep extends Planetes {
     public Epilep() {
         setNom("Epilep");
-        setGaz(500);
+        setGaz(300);
         setObj(new Plaster());
     }
 }

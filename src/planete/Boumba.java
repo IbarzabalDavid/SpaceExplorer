@@ -5,7 +5,7 @@ import objet.CapeInvisible;
 public class Boumba extends Planetes {
     public Boumba() {
         setNom("Boumba");
-        setGaz(200);
+        setGaz(150);
         setObj(new CapeInvisible());
     }
 }

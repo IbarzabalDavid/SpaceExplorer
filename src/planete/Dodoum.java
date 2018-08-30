@@ -5,7 +5,7 @@ import objet.Nitro;
 public class Dodoum extends Planetes {
     public Dodoum() {
         setNom("Dodoum");
-        setGaz(400);
+        setGaz(250);
         setObj(new Nitro());
     }
 }

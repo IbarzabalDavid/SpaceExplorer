@@ -1,6 +1,8 @@
 package objet;
 
-public abstract class Objet {
+import vaisseau.Vaisseau;
+
+public class Objet {
     private int pv;
     private int gaz;
     private String nom;
@@ -29,6 +31,18 @@ public abstract class Objet {
 
     public void setGaz(int gaz) {
         this.gaz = gaz;
+    }
+
+    public void utiliser(Vaisseau vaisseau){
+        System.out.println("Vous utilisez le "+this.getNom());
+        vaisseau.setPv(vaisseau.getPv()+this.getPv());
+        if (vaisseau.getPv()>100)
+            vaisseau.setPv(100);
+        vaisseau.setFuel(vaisseau.getFuel()+this.getGaz());
+        if (vaisseau.getFuel()>1500)
+            vaisseau.setFuel(1500);
+
+
     }
 
 
